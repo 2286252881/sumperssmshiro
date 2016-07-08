@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zh.base.dao.mapper.TpermissionMapperCustom" >
+  	<!-- 根据用户id查询url -->
+  <select id="findPermissionListByUserId" parameterType="string" resultType="zh.base.pojo.po.Tpermission">
+	  SELECT 
+	    * 
+	  FROM
+	    tpermission 
+	  WHERE TYPE = 'permission' 
+	    AND id IN 
+	    (SELECT 
+	      permissionid 
+	    FROM
+	      trolepermission 
+	    WHERE roleid IN 
+	      (SELECT 
+	        roleid 
+	      FROM
+	        tuserrole 
+	      WHERE userid = #{id}))
+  </select>
+  
+  <resultMap id="MenuResultMap" type="zh.base.pojo.vo.Menu" >
+    <id column="MENUID" property="menuid" jdbcType="VARCHAR" />
+    <result column="MENUNAME" property="menuname" jdbcType="VARCHAR" />
+    <collection property="menus" ofType="zh.base.pojo.vo.Menu">
+    	<result column="MENUID_TWO" property="menuid" jdbcType="VARCHAR" />
+    	<result column="MENUNAME_TWO" property="menuname" jdbcType="VARCHAR" />
+    	<result column="URl" property="url" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <!-- 根据用户id查询菜单 -->
+  <select id="findMenuListByUserId"  parameterType="string" resultMap="MenuResultMap">
+	      select m1.id menuid,m1.name menuname,m2.id menuid_two,m2.name menuname_two,m2.url url from tpermission  m1,tpermission m2 where  m2.parentid=m1.id  and m1.parentid='1' and m2.parentid!='1'
+			 and m2.id in(
+			 select p.id from trole r,trolepermission rp,tpermission  p where r.id=rp.roleid and p.id=rp.permissionid and r.id in(select r.id roleid from tuser u,tuserrole ur,trole r where u.id=ur.userid  and r.id=ur.roleid and u.id=#{id})
+			 ) order by m1.sortstring,m2.sortstring
+  </select>
+  <select id="findAllpermissionList"  resultType="zh.base.pojo.po.Tpermission">
+  		SELECT 
+	    * 
+	  	FROM tpermission
+  </select>
+  
+  
+  <select id="findRoleListByUserId" parameterType="String" resultType="zh.base.pojo.po.Trole">
+  		select r.id id,r.rolename from tuser u,tuserrole ur,trole r where u.id=ur.userid  and r.id=ur.roleid and u.id=#{id}
+  </select>
+  
+  
+</mapper>

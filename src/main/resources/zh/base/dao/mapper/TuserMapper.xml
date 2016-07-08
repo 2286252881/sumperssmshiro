@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zh.base.dao.mapper.TuserMapper" >
+  <resultMap id="BaseResultMap" type="zh.base.pojo.po.Tuser" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="PWD" property="pwd" jdbcType="VARCHAR" />
+    <result column="USERCODE" property="usercode" jdbcType="VARCHAR" />
+    <result column="SALT" property="salt" jdbcType="VARCHAR" />
+    <result column="LOCKED" property="locked" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USERNAME, PWD, USERCODE, SALT, LOCKED
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zh.base.pojo.po.TuserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TUSER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="zh.base.pojo.po.TuserExample" >
+    delete from TUSER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="zh.base.pojo.po.Tuser" >
+    insert into TUSER (ID, USERNAME, PWD, 
+      USERCODE, SALT, LOCKED
+      )
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
+      #{usercode,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{locked,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zh.base.pojo.po.Tuser" >
+    insert into TUSER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="pwd != null" >
+        PWD,
+      </if>
+      <if test="usercode != null" >
+        USERCODE,
+      </if>
+      <if test="salt != null" >
+        SALT,
+      </if>
+      <if test="locked != null" >
+        LOCKED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="usercode != null" >
+        #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="zh.base.pojo.po.TuserExample" resultType="java.lang.Integer" >
+    select count(*) from TUSER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TUSER
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        USERNAME = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pwd != null" >
+        PWD = #{record.pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usercode != null" >
+        USERCODE = #{record.usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salt != null" >
+        SALT = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locked != null" >
+        LOCKED = #{record.locked,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TUSER
+    set ID = #{record.id,jdbcType=VARCHAR},
+      USERNAME = #{record.username,jdbcType=VARCHAR},
+      PWD = #{record.pwd,jdbcType=VARCHAR},
+      USERCODE = #{record.usercode,jdbcType=VARCHAR},
+      SALT = #{record.salt,jdbcType=VARCHAR},
+      LOCKED = #{record.locked,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- 自定义 -->
+  <resultMap type="zh.base.pojo.po.Tuser" id="UserResultMap" extends="BaseResultMap">
+  	<collection property="userRoles" column="id" javaType="list" select="selectUserRole"></collection>
+  </resultMap>
+  <select id="getAlluser" resultMap="UserResultMap">
+  	select * from tuser
+  </select>
+  
+  <select id="selectUserRole" parameterType="java.lang.String" resultType="zh.base.pojo.po.Tuserrole">
+  	select * from TUSERROLE where userid=#{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 自定义 -->
+  <resultMap type="zh.base.pojo.po.Tuser" id="UserResultMap2" extends="BaseResultMap">
+  	<collection property="userRoles" javaType="list" ofType="zh.base.pojo.po.Tuserrole">
+  		<id property="id" column="userroleid" />
+  		<result property="userid" column="userid" />
+  		<result property="roleid" column="roleid" />
+  		<association property="role" javaType="zh.base.pojo.po.Trole">
+  			<id property="id" column="roleid"/>
+  			<result property="rolename" column="rolename"/>
+  		</association>
+  	</collection>
+  </resultMap>
+  <select id="getAlluser2" resultMap="UserResultMap2">
+		  	SELECT
+    SSM.TUSER.ID,
+    SSM.TUSERROLE.USERID,
+    SSM.TUSERROLE.ROLEID,
+    SSM.TROLE.ID,
+    SSM.TUSERROLE.ID userroleid,
+    SSM.TUSER.PWD,
+    SSM.TUSER.USERNAME,
+    SSM.TUSER.USERCODE,
+    SSM.TUSER.SALT,
+    SSM.TUSER.LOCKED,
+    SSM.TROLE.ROLENAME,
+    SSM.TROLE.AVAILABLE
+FROM
+    SSM.TUSERROLE
+INNER JOIN
+    SSM.TUSER
+ON
+    (
+        SSM.TUSERROLE.USERID = SSM.TUSER.ID)
+INNER JOIN
+    SSM.TROLE
+ON
+    (
+        SSM.TUSERROLE.ROLEID = SSM.TROLE.ID)
+  </select>
+  
+  <sql id="query_user_where">
+  	<if test="user!=null">
+  		<if test="user.username!=null and user.username!=''">
+  			tuser.username like '%${user.username}%'
+  		</if>
+  	</if>
+  </sql>
+ <select id="findAlluser" resultType="zh.base.pojo.po.Tuser">
+ 	select page_2.* from 
+        (select page_1.*,rownum page_num 
+        from (
+        	select * from tuser
+        	<where>
+				<include refid="query_user_where"/>
+			</where>
+        ) page_1
+     <![CDATA[
+     where rownum<=${rows}) page_2
+	where page_2.page_num>=${page}
+	]]>
+ </select> 
+  <select id="findAlluserCount" resultType="int">
+  	select count(*) from tuser 
+  	<where>
+		<include refid="query_user_where"/>
+	</where>
+  </select>
+  
+  
+  
+</mapper>
